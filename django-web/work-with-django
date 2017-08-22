@@ -1,0 +1,229 @@
+1.create a project named it vicpysite:
+	django-admin startproject vicpysite
+2.call a command to display the structure of the project which command is:
+	tree
+		Folder PATH listing for volume System
+		Volume serial number is 5600-F7FF
+		C:.
+		└─vicpysite
+		    └─vicpysite
+
+		views.py is for response for http requests.
+		models.py is for database
+		migration is also for database
+		urls.py is for url mapping
+		admin.py is for the comman admin which is for database curd.
+		test.py
+		blog/templates/
+
+
+3.get into the directory of the project which name is i just create:
+	cd vicpysite
+4.run the project:
+	python manage.py runserver
+	[some note show as:(
+		You have 13 unapplied migration(s). Your project may not work properly until you
+		 apply the migrations for app(s): admin, auth, contenttypes, sessions.
+		Run 'python manage.py migrate' to apply them.
+		June 26, 2017 - 09:10:57
+		Django version 1.11.2, using settings 'vicpysite.settings'
+		Starting development server at http://127.0.0.1:8000/
+		Quit the server with CTRL-BREAK.
+	)]
+5.we can run it in our browser:
+	http://127.0.0.1:8000/
+6.migrate
+	makemigrations:
+	python manage.py makemigrations [app]
+		(app is option)
+		[some note show as:(
+			Migrations for 'confluence':
+			  confluence\migrations\0001_initial.py
+			    - Create model Article
+	    )]
+
+	python manage.py migrate
+		[some note show as:(
+			Running migrations:
+			  Applying contenttypes.0001_initial... OK
+			  Applying auth.0001_initial... OK
+			  Applying admin.0001_initial... OK
+			  Applying admin.0002_logentry_remove_auto_add... OK
+			  Applying contenttypes.0002_remove_content_type_name... OK
+			  Applying auth.0002_alter_permission_name_max_length... OK
+			  Applying auth.0003_alter_user_email_max_length... OK
+			  Applying auth.0004_alter_user_username_opts... OK
+			  Applying auth.0005_alter_user_last_login_null... OK
+			  Applying auth.0006_require_contenttypes_0002... OK
+			  Applying auth.0007_alter_validators_add_error_messages... OK
+			  Applying auth.0008_alter_user_username_max_length... OK
+			  Applying confluence.0001_initial... OK
+			  Applying sessions.0001_initial... OK
+		)]
+		after then, it will generate a database migration files under the folder of app/migrations/
+
+		to check the sql:
+		python manage.py sqlmigrate app fileId
+			python manage.py sqlmigrate confluence 0001
+				[some notes show as:(
+				BEGIN;
+				--
+				-- Create model Article
+				--
+				CREATE TABLE "confluence_article" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "title" varchar(100) NOT NULL, "content" text NULL);
+				COMMIT;
+				)]
+
+7.create modules/apps(which name is blog):
+	python manage.py startapp blog
+
+8.add the module/app to project:
+	projectname/settings.py->INSTALLED_APPS
+		'blog',
+
+
+=====================================================
+1. install Django:
+	a. install it by pip:
+		pip install Django
+		if want to install a specific version of Django we should using the following commands:
+		pip install Django--1.11
+		pip install Django==1.11.3 ??
+	b. download a release version of source code to install:
+		1.download and extract compressed package.
+		2.python setup.py install
+
+2. to display all of the commands of the manage.py have.
+	a: get into the directory of manage.py
+	b: input the command to display:
+		python manage.py
+
+3: in common commands:
+	runserver
+	shell
+	migrate
+	makemigrations
+
+	scp -r ./django2ndsite dev@192.168.1.2:/home/victoria/
+
+
+	python -m pip install requests --proxy http://user:[XXX]@192.168.1.2:8080 --index-url=http://pypi.python.org/simple/ --trusted-host pypi.python.org
+
+
+4:structure of django web project:
+	newDjangoPrjectDirectory	
+	|--manage.py 				to manage project:create db, run server, test...
+	|--newDjangoPrjectDirectory
+		|--settings.python		to config: app, midware,db,static directory 
+		|--urls.py 				to mapping/config network: to mappting functions and urls
+		|--wsgi.py 				network interface of python project
+		|--__init__.py 			to declaretion a module.
+	|--newApp
+		|--migrations 			to config or migration models(database)
+		|--admin 				backend management configuration
+		|--apps 				generate from django 1.9
+		|--models.py 			will using ORM
+		|--tests.py 			
+		|--views.py 			to response(control) users reqeusts
+
+
+
+	:wa
+	:sp
+	:vsp
+
+
+5.to check the version of django:
+	python -m django --version
+	or:
+	python
+	import django
+	django.VERSION
+
+
+6. to custom port
+	python manage.py runserver 0.0.0.0 8080
+
+7. to check or edit the data of the db:
+	software(open source): 
+		SQLite Expert Personal
+
+8.
+	templates:
+		render function, dict
+		#views.py
+		render(request, 'index.html', {'name': 'value'})
+			#index.html {{'name'}}
+
+9. create Models object:
+	#models.py
+		class Article(models.Model):
+	    title = models.CharField(max_length=100, default='Title')
+	    content = models.TextField(null=True)
+
+    #views.py
+    	article = models.Article.objects.get(pk= 1)
+    	return render(request, 'confluence/index.html', {'article': article})
+
+10. create a super admin:
+	python manage.py createsuperuser
+
+11. to access the page of admin
+	localhost:8000/admin
+
+12. change language:
+		LANGUAGE_CODE = 'zh_Hans' #'zh_Hant'
+
+13. config app:
+	under the app folder admin.py
+		import models
+		#admin.py
+			admin.site.register(models.Article)
+
+14. to change the name of the items'' show in display
+	#py3 def
+		__str_(self)
+	#py2
+		__unicode_(self)
+	return self.title
+
+15. {% for xx in xxs %}
+	html
+	{% endfor %}
+
+16. articles = models.Article.objects.all()
+	return render(request, 'confluence/index.html', 'articles': articles)
+
+17.href
+	templates
+		" {% url 'app_name:url_name' param %} "
+
+	config url:
+		1.
+		#urls.py
+			include(param1,param2)
+				param2: namespace = 'app'
+		2.
+		# sub urls.py
+			url(param1, param2, param3)
+				param3: name= 'article'
+
+18. Django shell
+	python manage.py shell
+		from confluence.models import Article
+		Article.objects.all()
+		Article.objects.all().values()
+
+19. admin
+	admin.site.register
+
+	class ArticleAdmin(admin.ModelAdmin)
+
+20. post
+	avoid accoss website request camouflage
+	add a statement under the post html page:
+		{% csrf_token %}
+
+	django-admin startproject vicpysite
+
+
