@@ -1,0 +1,21 @@
+Common issues and solutions:
+1. issue:
+	C:\devtools\python-tools>pip install .\six-1.10.0-py2.py3-none-any.whl
+	Fatal error in launcher: Unable to create process using '"'
+	solution:
+	python -m pip install XXX 
+
+2.issue:
+	C:\Program Files(x86)\devtools\python\35-32\Lib\site-packages" without premissions.
+	solution:
+	pip install --install-option="--prefix=C:\devtools\python\3.5.2\Lib\site-packages" requests
+	pip install --install-option="--prefix=C:\devtools\python\3.5.2\Lib\site-packages" django
+	>>> import site; site.getsitepackages()
+	site.getsitepackages()[0]
+
+actually we should point the library repostory to:
+pip install --install-option="--prefix=C:\devtools\python\3.5.2" requests
+pip install --install-option="--prefix=C:\devtools\python\3.5.2" django
+
+install ipython:
+	python -m pip install jupyter
